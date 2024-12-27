@@ -17,9 +17,8 @@ class Solution
 {
     private:
         std::unordered_map<int, int> inMap;
-        int preIdx = 0;
 
-        TreeNode *constructTree(std::vector<int> &preorder, int startIdx, int endIdx)
+        TreeNode *constructTree(std::vector<int> &preorder, int &preIdx, int startIdx, int endIdx)
         {
             if(startIdx > endIdx)
             {
@@ -28,18 +27,19 @@ class Solution
             TreeNode *currNode = new TreeNode(preorder[preIdx]); 
             int inIdx = inMap[preorder[preIdx]];
             preIdx++;
-            currNode->left = constructTree(preorder, startIdx, inIdx-1);
-            currNode->right = constructTree(preorder, inIdx+1, endIdx);
+            currNode->left = constructTree(preorder, preIdx, startIdx, inIdx-1);
+            currNode->right = constructTree(preorder, preIdx, inIdx+1, endIdx);
             return currNode;
         }   
 
     public:
         TreeNode* buildTree(std::vector<int>& preorder, std::vector<int>& inorder)
         {
+            int preIdx = 0;
             for(int i = 0; i < inorder.size(); i++)
             {
                 inMap[inorder[i]] = i; 
             }
-            return constructTree(preorder, 0, inorder.size()-1);
+            return constructTree(preorder, preIdx, 0, inorder.size()-1);
         }
 };
