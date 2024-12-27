@@ -16,14 +16,11 @@
 class Solution
 {
     private:
-        int minDiff = MAX_VAL_AVAILABLE - MIN_VAL_AVAILABLE;
-        int prevVal = MIN_VAL_AVAILABLE - 1;
-
-        void calculateMinDiff(TreeNode *root)
+        void calculateMinDiff(TreeNode *root, int &minDiff, int &prevVal)
         {
             if(root != NULL)
             {
-                calculateMinDiff(root->left);
+                calculateMinDiff(root->left, minDiff, prevVal);
                 if(prevVal != MIN_VAL_AVAILABLE - 1)
                 {
                     int currDiff = root->val - prevVal;
@@ -33,14 +30,16 @@ class Solution
                     }
                 }
                 prevVal = root->val;
-                calculateMinDiff(root->right);
+                calculateMinDiff(root->right, minDiff, prevVal);
             }
         }
  
     public:
         int getMinimumDifference(TreeNode* root)
         {
-            calculateMinDiff(root);
+            int minDiff = MAX_VAL_AVAILABLE - MIN_VAL_AVAILABLE;
+            int prevVal = MIN_VAL_AVAILABLE - 1;
+            calculateMinDiff(root, minDiff, prevVal);
             return minDiff;
         }
 };
