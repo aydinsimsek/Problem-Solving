@@ -20,6 +20,10 @@ class Solution
             if(root != NULL)
             {
                 checkValidBST(root->left, prevVal, result);
+                if(!result)
+                {
+                    return;
+                }
                 if(prevVal >= root->val)
                 {
                     result = false;
