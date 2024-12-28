@@ -18,6 +18,10 @@ class Solution
             if(root != NULL)
             {
                 findKthSmallest(root->left, k, kthVal);
+                if(kthVal != -1)
+                {
+                    return;
+                }
                 if(--k == 0)
                 {
                     kthVal = root->val;
