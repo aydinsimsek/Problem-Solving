@@ -10,33 +10,26 @@
  * };
  */
 
-#include <vector>
-
 class Solution
 {
-    private: 
-        void storeNodes(TreeNode *root, std::vector<TreeNode*> &nodes)
-        {
-            if(root != NULL)
-            {
-                nodes.push_back(root);
-                storeNodes(root->left, nodes);
-                storeNodes(root->right, nodes);
-            }
-        }
-
     public:
         void flatten(TreeNode* root)
         {
-            if(root != NULL)
+            TreeNode *currNode = root;
+            while(currNode != NULL)
             {
-                std::vector<TreeNode*> nodes;
-                storeNodes(root, nodes);
-                for(int i = 0; i < nodes.size()-1; i++)
+                if(currNode->left != NULL)
                 {
-                    nodes[i]->left = NULL;
-                    nodes[i]->right = nodes[i+1];
+                    TreeNode *rightmost = currNode->left;
+                    while(rightmost->right != NULL)
+                    {
+                        rightmost = rightmost->right;
+                    }
+                    rightmost->right = currNode->right;
+                    currNode->right = currNode->left;
+                    currNode->left = NULL;
                 }
+                currNode = currNode->right;
             }
         }
 };
